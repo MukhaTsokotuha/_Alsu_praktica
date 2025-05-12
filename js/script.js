@@ -27,6 +27,19 @@ function _get(url, callback){
         }
     }
 }
+function _post(url, data, callback){
+    let req_data = new FormData();
+    req_data.append('email',data)
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', url)
+    xhr.setRequestHeader('Authorization', 'Bearer ' + TOKEN);
+    xhr.send(req_data)
+    xhr.onreadystatechange = function(){
+        if (xhr.readyState == 4){
+            callback(xhr.responseText)   
+        }
+    }
+}
 const HOST = `http://api-messenger.web-srv.local`
 var TOKEN = ''
 
@@ -94,10 +107,42 @@ function doAuth(){
     })
 }
 
-
-
-
-
+// chat_id
+// : 
+// "24"
+// chat_last_message
+// : 
+// "1990-01-01 00:00:01"
+// chat_name
+// : 
+// "Чат с Ян М. А. "
+// companion_email
+// : 
+// "yan1@mail.com"
+// companion_fam
+// : 
+// "Ян"
+// companion_name
+// : 
+// "Мармелад"
+// companion_otch
+// : 
+// "Анатольевич"
+// companion_photo_link
+// : 
+// ""
+// [[Prototype]]
+// : 
+// Object
+let req_data = new FormData();
+req_data.append('email', '')
+let xhr = new XMLHttpRequest()
+xhr.open('GET', `${HOST}/user`)
+xhr.send(req_data)
+function showProfile(res){
+   
+    
+}
 
 function doMainPage(){
     _elem('.createChat').addEventListener('click', function(){
@@ -109,8 +154,26 @@ function doMainPage(){
         let arr_chats = document.querySelectorAll('.chat p')
         for (let i = 0; i < arr_chats.length; i++) {
             arr_chats[i].textContent = res[i]["chat_name"]; 
+            arr_chats[i].addEventListener('click', function(){
+                _load('html/usersProfiles.html', function(){
+                     console.log(res)
+                    _elem('.name').textContent = res[i]["chat_name"]
+                    _elem('.fam').textContent = res[i]["companion_fam"]
+                    _elem('.otch').textContent = res[i]["companion_otch"]
+                })
+            })
         }
     })
+
+    // _post(`${HOST}`, 'yan1@mail.com', function(res){
+    //     res = JSON.parse(res)
+    //     let arr_profiles = document.querySelectorAll('chat')
+    //     for (let ind = 0; ind < arr_profiles.length; ind++) {
+    //         console.log( res[i])
+            
+    //     }
+    // })
+   
     // let req_data = new FormData();
     // req_data.append('email', 'yan1@mail.com')
     // let xhr = new XMLHttpRequest();

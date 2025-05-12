@@ -60,14 +60,21 @@ section{
 }
 .header_chats{
     position: absolute;
+    display: flex;
+    align-items: center;
     font-size: 17px;
-    margin-top: -30px;
+    margin-top: -35px;
     font-size: 20px;
     font-weight: 600;
     display: flex;
     gap: 25px;
     & label{
         display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+    & .btn{
+        font-size: 11px;
     }
 }
 .chat{
@@ -76,18 +83,38 @@ section{
     margin: 1px;
     padding: 5px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     gap: 20px;
+    cursor: pointer;
 }
 .chat_active{
     border: 2px solid rgb(11, 122, 212);
     background-color: #3e556bef;
+}
+.profile_chat{
+    display: flex;
+    gap: 20px;
+    align-items: center;
 }
 .chat img{
     height: 45px;
     width: 45px;
     object-fit: cover;
     border-radius: 50%;
+}
+.point{
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: rgb(11, 122, 212);
+    margin-right: 10px;
+    display: none;
+}
+.chat_flag{
+    & .point{
+        display: block;
+    }
 }
 
 /*/////////////////////////////////////////////////////////////////////СООБЩЕНИЯ*/
