@@ -76,7 +76,7 @@ function _delete(url){
 const HOST = `http://api-messenger.web-srv.local`
 var TOKEN = ''
 
-_load('html/auth.html', doAuth)/////////////////НАЧАЛЬНАЯ СТРАНИЦА/////////////////////////////////////////////////////////////////////////////
+_load('html/main_page.html', doMainPage)/////////////////НАЧАЛЬНАЯ СТРАНИЦА/////////////////////////////////////////////////////////////////////////////
 
 _elem('.btn_logout').addEventListener('click', function(){
     _load('html/auth.html', doAuth)
@@ -320,3 +320,374 @@ _get(`${HOST}/chats`, function(res){
         }
        
     })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ////////////////////////////////
+    function doMainPage(){
+//СОЗДАЁМ ЧАТ
+    _elem('.createChat').addEventListener('click', function(){
+        _post(`${HOST}/chats`, _elem('.header_chats input').value, function(res){
+            if (res.status == 422){
+                res = JSON.parse(res.responseText)
+                _elem('.block_message').textContent = res["message"]
+            }else{
+                _elem('.block_message').textContent = 'Чат успешно создан'
+            }
+        })
+       
+    })
+
+/////////ПЕРВАЯ ЗАГРУЗКА ЧАТОВ - ПОЛУЧАЕМ ПЕРВЫЙ LAST RESPONSE ДЛЯ ПОСЛЕДУЮЩИХ ПРОВЕРОК
+    _get(`${HOST}/chats`, function(res){
+        res = JSON.parse(res)
+        res_last = new Object();
+        for (let index = 0; index < res.length; index++) {
+////ЗАПИСЫВАЕМ ID И CHAT_LAST_MESSAGE В ОБЪЕКТ RES_LAST 
+            res_last[`${res[index]["chat_id"]}`] = res[index]["chat_last_message"];
+           
+//             if ((document.getElementById( res[index].chat_id))){
+//                 let chatBlock = document.createElement('div')
+//                 chatBlock.className = 'chat';
+//                 let chatBlockText = document.createElement('p')
+//                 chatBlock.append(chatBlockText)
+
+//                 chatBlockText.textContent = res[index]["chat_name"]; 
+//                 document.querySelector('.block_chats').append(chatBlock)
+
+//             }
+
+// /////////////СОЗДАЁМ СПИСКИ ЧАТОВ}
+
+         
+// ////////////ОБРАБОТЧИК ДЛЯ ПЕРЕХОДА К ЧАТУ
+//             chatBlock.addEventListener('click', function(){
+//                 _elem('.content_messages').textContent='1'
+//                 console.log(1)
+//             })
+        }
+//         let arr_messages = document.querySelectorAll('.chat')
+        
+//         for (let index = 0; index < arr_messages.length; index++) {
+//             arr_messages[index].addEventListener('click', function(){
+//                 _elem('.content_messages').textContent = '';
+                
+//                 let chat_id = res[index]["chat_id"]
+//                 _elem('.sendMessage').addEventListener('click', function(){
+//                     _postMessages(`${HOST}/messages`,chat_id, document.querySelector('.input_message input').value)
+//                     console.log(document.querySelector('.input_message input').value)
+//                 })
+              
+//                //ПОЛУЧИТЬ СООБЩЕНИЯ ПО ID ЧАТА
+//                 _get(`${HOST}/messages/?chat_id=${chat_id}`, function(response){
+//                     response = JSON.parse(response)
+//                     //ПОЛУЧИТЬ EMAIL ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ
+//                     _get(`${HOST}/user`, function(res){
+//                         res = JSON.parse(res)
+//                         userEmail = res["email"]
+//                         console.log(userEmail, 'GET ЗАПРОС К USER')
+
+//                         for (let ind = 0; ind < response.length; ind++) {
+// ////////////////////////СООБЩЕНИЯ ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ
+//                             if(response[ind]["sender"]["email"] == userEmail){
+//                                 let message_block = document.createElement('div')
+//                                 message_block.className='message message1'
+//                                 message_block.textContent = response[ind]["text"]
+//                                 _elem('.content_messages').append(message_block)
+//                                 console.log('ТЕКСТ МОЕГО СООБЩЕНИЯ', response[ind]["text"])
+// ////////////////////////СООБЩЕНИЯ СОБЕСЕДНИКА
+//                             }else{                                              
+//                                 let message_block = document.createElement('div')
+//                                 message_block.className='message message2'
+//                                 message_block.textContent = response[ind]["text"]
+//                                 _elem('.content_messages').append(message_block)
+//                                 console.log(response[ind]["text"], "ТЕКСТ СООБЩЕНИЯ СОБЕСЕДНИКА")
+//                             }
+//                         }
+//                     })
+//                 })
+//             })
+            
+//         }
+        //ВЫВОДИМ НАЗВАНИЯ ЧАТОВ
+        let arr_chats = document.querySelectorAll('.chat p')
+        for (let i = 0; i < arr_chats.length; i++) {
+
+            arr_chats[i].addEventListener('click', function(){
+                console.log(1)
+                _load('html/usersProfiles.html',function(){
+                    _get(`${HOST}/user/?email=${res[i]["companion_email"]}`,function(res){
+                        console.log(res, '1')
+                        res = JSON.parse(res)
+                        
+                        _elem('.name').textContent = res["name"]
+                        _elem('.fam').textContent = res["fam"]
+                        _elem('.otch').textContent = res["otch"]
+                        _elem('.email').textContent = res["email"]
+
+                    })
+                    _elem('.link_chats_1').addEventListener('click', function(){
+                        _load(`html/main_page.html`, doMainPage)
+                    })
+                })
+            })
+            
+        }
+       
+    })
+ 
+///......//ЗАПУСКАЕМ ПРОВЕРКУ ДАННЫХ
+    let timer = setInterval(function(){
+            // console.log(res_last)
+
+            
+            _get(`${HOST}/chats`, function(res){
+                //document.querySelector('.block_chats').innerHTML = ''
+                res = JSON.parse(res)
+                console.log(res)
+                for (let index = 0; index < res.length; index++) {
+
+                    if (!(document.getElementById( res[index].chat_id))){
+                       
+                  
+                        let chatBlock = document.createElement('div')
+                        chatBlock.className = 'chat';
+                        chatBlock.id = res[index].chat_id;
+                        let chatBlockText = document.createElement('p')
+                        chatBlock.append(chatBlockText)
+                        chatBlockText.textContent = res[index]["chat_name"]; 
+                        document.querySelector('.block_chats').append(chatBlock)
+
+
+                                  //ОБРАБОТЧИК НАЖАТИЯ НА БЛОК СООБЩЕНИЯ
+                        let arr_chats = document.querySelectorAll('.chat p')
+                        for (let i = 0; i < arr_chats.length; i++) {
+
+                            arr_chats[i].addEventListener('click', function(){
+                                console.log(1)
+                                _load('html/usersProfiles.html',function(){
+                                    _get(`${HOST}/user/?email=${res[i]["companion_email"]}`,function(res){
+                                        //console.log(res, '1')
+                                        res = JSON.parse(res)
+                                        
+                                        _elem('.name').textContent = res["name"]
+                                        _elem('.fam').textContent = res["fam"]
+                                        _elem('.otch').textContent = res["otch"]
+                                        _elem('.email').textContent = res["email"]
+
+                                    })
+                                    _elem('.link_chats_1').addEventListener('click', function(){
+                                        _load(`html/main_page.html`, doMainPage)
+                                    })
+                                })
+                            })   
+                        }
+                    }
+                
+
+                    if (!(document.getElementById( res[index].chat_id))){
+                        let arr_messages = document.querySelectorAll('.chat')
+                        
+                        for (let i = 0; i < arr_messages.length; i++) {
+                            arr_messages[i].addEventListener('click', function(){
+                                _elem('.content_messages').textContent = '';
+                                
+                                let chat_id = res[i]["chat_id"]
+                                _elem('.sendMessage').addEventListener('click', function(){
+                                    _postMessages(`${HOST}/messages`,chat_id, document.querySelector('.input_message input').value)
+                                    console.log(document.querySelector('.input_message input').value)
+                                })
+                            
+                            //ПОЛУЧИТЬ СООБЩЕНИЯ ПО ID ЧАТА
+                                _get(`${HOST}/messages/?chat_id=${chat_id}`, function(response){
+                                    response = JSON.parse(response)
+                                    //ПОЛУЧИТЬ EMAIL ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ
+                                    _get(`${HOST}/user`, function(res){
+                                        res = JSON.parse(res)
+                                        userEmail = res["email"]
+                                        console.log(userEmail, 'GET ЗАПРОС К USER')
+
+                                        for (let ind = 0; ind < response.length; ind++) {
+                ////////////////////////СООБЩЕНИЯ ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ
+                                            if(response[ind]["sender"]["email"] == userEmail){
+                                                let message_block = document.createElement('div')
+                                                message_block.className='message message1'
+                                                message_block.textContent = response[ind]["text"]
+                                                _elem('.content_messages').append(message_block)
+                                                console.log('ТЕКСТ МОЕГО СООБЩЕНИЯ', response[ind]["text"])
+                ////////////////////////СООБЩЕНИЯ СОБЕСЕДНИКА
+                                            }else{                                              
+                                                let message_block = document.createElement('div')
+                                                message_block.className='message message2'
+                                                message_block.textContent = response[ind]["text"]
+                                                _elem('.content_messages').append(message_block)
+                                                console.log(response[ind]["text"], "ТЕКСТ СООБЩЕНИЯ СОБЕСЕДНИКА")
+                                                console.log(response)
+                                            }
+                                        }
+                                    })
+                                })
+                            })
+                            
+                        }
+                    }
+                    
+               
+                }
+            ///////////////СОЗДАЁМ СПИСКИ ЧАТОВ
+                    
+                //////////////ПЕРЕЗАПИСЫВАЕМ LAST RESPONSE
+                res_last = new Object();
+                for (let index = 0; index < res.length; index++) {
+                    res_last[`${res[index]["chat_id"]}`] = res[index]["chat_last_message"];
+                }
+                    // if (res_last[res[index]["chat_id"]] != res[index]["chat_last_message"]){
+                    //    document.getElementById( res[index].chat_id).setAttribute('style', 'background-color: #fff')
+                    // }
+        
+                    
+                // console.log(res_last, 'LAST RESPONSE')
+                // console.log(res, 'THIS RESPONSE')
+           
+          
+        // document.querySelector('.block_chats').innerHTML = ''
+        }, 100)
+
+    //ПРИ НАЖАТИИ НА БЛОК В ЛЕВОМ ВЕРХНЕМ УГЛУ ПЕРЕХОДИМ НА СВОЮ СТРАНИЦУ
+    _elem('.block_profile h3').addEventListener('click', function(){
+        _load('html/profile.html', doProfile)
+    }) 
+    })
+}
+
+function doProfile(){
+    _elem('.link_chats').addEventListener('click', function(){
+        _load('html/main_page.html', doMainPage)
+    })
+    _get(`${HOST}/user`, function(res){
+        res = JSON.parse(res)
+        _elem('.name').textContent = res["name"]
+        _elem('.fam').textContent = res["fam"]
+        _elem('.otch').textContent = res["otch"]
+        _elem('.email').textContent = res["email"]
+    })
+
+}

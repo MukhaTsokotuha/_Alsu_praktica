@@ -112,6 +112,7 @@ section{
     display: none;
 }
 .chat_flag{
+    background-color: antiquewhite;
     & .point{
         display: block;
     }
@@ -145,8 +146,27 @@ section{
     }
 }
 
-
-
+.content_messages{
+    display: flex;
+    
+    flex-direction: column-reverse;
+    
+    justify-content: flex-end;
+}
+.message{
+    background-color: #324252;
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 1dvh;
+}
+.message2{
+    align-self: flex-start;
+  
+}
+.message1{
+    align-self: flex-end;
+    background-color:  rgba(11, 122, 212, 0.479);
+}
 
 /*//////////////////////////////////////////////////////////СТРАНИЦА ПРОФИЛЯ*/
 .link_chats{

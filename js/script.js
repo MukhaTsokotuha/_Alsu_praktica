@@ -1,5 +1,9 @@
+//#region Функции
 function _elem(sel){
     return document.querySelector(sel)
+}
+function timedOut(){////////////////////////////ВРЕМЯ СЕССИИ ИСТЕКЛО
+    _load('html/auth.html', doAuth)
 }
 function _load(url, callback){
     let xhr = new XMLHttpRequest();
@@ -8,11 +12,13 @@ function _load(url, callback){
     xhr.send()
     xhr.onreadystatechange = function(){
         if (xhr.readyState == 4){
+            if (xhr.status == 401){
+                timedOut()
+            }
             _elem('section').innerHTML = xhr.responseText
             if (callback){
                 callback(xhr.responseText)
             }
-            
         }
     }
 }
@@ -23,6 +29,9 @@ function _get(url, callback){
     xhr.send()
     xhr.onreadystatechange = function(){
         if (xhr.readyState == 4){
+            // if (xhr.status == 401){
+            //     timedOut()
+            // }
             callback(xhr.responseText)   
         }
     }
@@ -36,18 +45,62 @@ function _post(url, data, callback){
     xhr.send(req_data)
     xhr.onreadystatechange = function(){
         if (xhr.readyState == 4){
-            callback(xhr.responseText)   
+            if (xhr.status == 401){
+                timedOut()
+            }
+            if (callback){
+                callback(xhr)   
+            }
+           
         }
     }
 }
+function _postMessages(url, chat_id, text, callback){
+    let req_data = new FormData();
+    req_data.append('chat_id',chat_id)
+    req_data.append('text',text)
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', url)
+    xhr.setRequestHeader('Authorization', 'Bearer ' + TOKEN);
+    xhr.send(req_data)
+    xhr.onreadystatechange = function(){
+        if (xhr.readyState == 4){
+            if (xhr.status == 401){
+                timedOut()
+            }
+            if (callback){
+                callback(xhr)   
+            }
+           
+        }
+    }
+}
+function _delete(url,callback){
+    let xhr = new XMLHttpRequest();
+    xhr.open('DELETE', url)
+    xhr.setRequestHeader('Authorization', 'Bearer ' + TOKEN);
+    xhr.send()
+    xhr.onreadystatechange = function(){
+        if (xhr.readyState == 4){
+            if (xhr.status == 401){
+                timedOut()
+            }
+            if (callback){
+                callback(xhr)   
+            }
+        }
+    }
+}
+
+//#endregion
 const HOST = `http://api-messenger.web-srv.local`
 var TOKEN = ''
 
-_load('html/auth.html', doAuth)//////////////////////////////////////////////////////////////////////////////////////////////
+_load('html/auth.html', doAuth)/////////////////НАЧАЛЬНАЯ СТРАНИЦА/////////////////////////////////////////////////////////////////////////////
 
-_elem('.btn_logout').addEventListener('click', function(){
-    _load('html/auth.html', doAuth)
-})
+// _elem('.btn_logout').addEventListener('click', function(){
+//     _load('html/auth.html', doAuth)
+// })
 
 function doReg(){
     _elem('.btn_log').addEventListener('click', function(){
@@ -101,119 +154,53 @@ function doAuth(){
                 } 
             }
         } 
+        console.log(1)
     })
     _elem('.btn_reg').addEventListener('click', function(){
         _load('html/reg.html', doReg)
     })
 }
 
-// chat_id
-// : 
-// "24"
-// chat_last_message
-// : 
-// "1990-01-01 00:00:01"
-// chat_name
-// : 
-// "Чат с Ян М. А. "
-// companion_email
-// : 
-// "yan1@mail.com"
-// companion_fam
-// : 
-// "Ян"
-// companion_name
-// : 
-// "Мармелад"
-// companion_otch
-// : 
-// "Анатольевич"
-// companion_photo_link
-// : 
-// ""
-// [[Prototype]]
-// : 
-// Object
-let req_data = new FormData();
-req_data.append('email', '')
-let xhr = new XMLHttpRequest()
-xhr.open('GET', `${HOST}/user`)
-xhr.send(req_data)
-function showProfile(res){
-   
-    
-}
+_elem('.btn_logout').addEventListener('click', function(){
+    _delete(`${HOST}/auth`)
+})
+
 
 function doMainPage(){
-    _elem('.createChat').addEventListener('click', function(){
+    _get(`${HOST}/chats`, function(res_chats){//показать чаты пользователя
+        res_chats = JSON.parse( res_chats)
+        console.log(res_chats)
         console.log(1)
     })
-    _get(`${HOST}/chats`, function(res){
-        res = JSON.parse(res)
-        console.log(res)
-        let arr_chats = document.querySelectorAll('.chat p')
-        for (let i = 0; i < arr_chats.length; i++) {
-            arr_chats[i].textContent = res[i]["chat_name"]; 
-            arr_chats[i].addEventListener('click', function(){
-                _load('html/usersProfiles.html', function(){
-                     console.log(res)
-                    _elem('.name').textContent = res[i]["chat_name"]
-                    _elem('.fam').textContent = res[i]["companion_fam"]
-                    _elem('.otch').textContent = res[i]["companion_otch"]
-                })
-            })
-        }
-    })
-
-    // _post(`${HOST}`, 'yan1@mail.com', function(res){
-    //     res = JSON.parse(res)
-    //     let arr_profiles = document.querySelectorAll('chat')
-    //     for (let ind = 0; ind < arr_profiles.length; ind++) {
-    //         console.log( res[i])
-            
-    //     }
-    // })
-   
-    // let req_data = new FormData();
-    // req_data.append('email', 'yan1@mail.com')
-    // let xhr = new XMLHttpRequest();
-    // xhr.open('POST', `${HOST}/chats`)
-    // xhr.setRequestHeader('Authorization', 'Bearer ' + TOKEN);
-
-    // xhr.send(req_data)
-    // xhr.onreadystatechange = function(){
-    //     if (xhr.readyState==4){
-    //         console.log(xhr.responseText)
-    //     }
-    // }
-
-    // let xhr = new XMLHttpRequest();
-    // xhr.open('GET', `${HOST}/chats`)
-    // xhr.setRequestHeader('Authorization', 'Bearer ' + TOKEN);
-    // xhr.send()
-    // xhr.onreadystatechange = function(){
-    //     if (xhr.readyState==4){
-    //         console.log(xhr.responseText)
-            
-    //     }
-    // }
-    _elem('.block_profile h3').addEventListener('click', function(){
-        _load('html/profile.html', doProfile)
-    }) 
-
-
-}
 
 
 
 
 
+
+    _elem('.createChat').addEventListener('click', function(){
+        _post(`${HOST}/chats`, _elem('.header_chats input').value, function(res){
+            if (res.status == 422){
+                res = JSON.parse(res.responseText)
+                _elem('.block_message').textContent = res["message"]
+            }else{
+                _elem('.block_message').textContent = 'Чат успешно создан'
+            }
+        })
+       
+    })//создание диалога
+
+}//function doMainPage
 function doProfile(){
     _elem('.link_chats').addEventListener('click', function(){
         _load('html/main_page.html', doMainPage)
     })
+    _get(`${HOST}/user`, function(res){
+        res = JSON.parse(res)
+        _elem('.name').textContent = res["name"]
+        _elem('.fam').textContent = res["fam"]
+        _elem('.otch').textContent = res["otch"]
+        _elem('.email').textContent = res["email"]
+    })
+
 }
-
-
-
-
