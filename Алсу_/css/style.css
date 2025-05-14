@@ -1,0 +1,255 @@
+* {
+    box-sizing: border-box;
+}
+body{
+    background-color:  #1E1E1E;
+    color: #fff;
+}
+.btn{
+    background-color: blue;
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    font-weight: 600;
+    border-radius: 1dvh;
+    cursor: pointer;
+}
+img{
+    height: 40px;
+}
+.link_chats{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.block_chat p{
+    width: 120px;
+}
+/*//////////////////////////////////////////////////////////////HEADER*/
+header{
+    padding: 10px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.block_header{
+    position: relative;
+    & img{
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+}
+.block_profile{/*///////////////////////////////////////*/
+  
+    background-color: #31475e;
+    position: absolute;
+    top: 90px;
+}
+.text_profile{
+    padding: 20px;
+}
+.buttons_profile{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    & button{
+        border: none;
+        padding: 10px;
+        background-color: rgb(60, 150, 183);
+        color: #fff;
+        font-weight: 500;
+        cursor: pointer;
+    }
+    & .btn_logout{
+        color: rgb(255, 238, 6);
+        font-weight: 600;
+    }
+}
+.block_create_chat{
+    background-color: #31475e;
+    padding: 5px;
+    padding-left: 20px;
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    & p{
+        width: 100px;
+    }
+}
+.input_create_chat{
+    display: flex;
+}
+
+/*//////////////////////////////////////////////////////////////MAIN PAGE*/
+.content_main_page{
+    margin: 10px 150px;
+    margin-bottom: 0;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+   
+    height: 80vh;
+}
+/*////////////////LIST CHATS*/
+.list_chats{
+    background-color: #31475e;
+}
+.block_chat{
+    background-color: #00c8ff69;
+    padding: 5px 10px;
+    margin: 5px;
+}
+.block_chat_active{
+    background-color: #00c8ffbb;
+    box-shadow: 1px 1px 2px #fff;
+    font-weight: 550;
+}
+
+/*////////////WINDOW MESSAGE*/
+.window_messages{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #293541;
+}
+
+.input_messages{
+    display: flex;
+    height: 30px;
+    width: 100%;
+    & input{
+        width: 90%;
+    }
+    & button{
+        width: 10%;
+    }
+}
+.block_messages{
+    padding: 15px;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.message_1{
+    align-self: flex-end;
+    border-radius: 1dvh;
+    padding: 3px 8px;
+    background-color: rgb(11, 122, 212);
+}
+.message_2{
+    border-radius: 1dvh;
+    align-self: flex-start;
+    background-color: #00c8ff;
+    color: #000000;
+    font-weight: 600;
+    padding: 3px 8px;
+}
+
+
+/*////////////////////////////////////////////////////////AUTH*/
+.content_auth{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+.block_auth{
+    width: 300px;
+    & input{
+        width: 100%;
+    }
+    & h1{
+        text-align: center;
+    }
+    & p{
+        margin: 5px 0;
+        margin-top: 15px;
+    }
+}
+.buttons_auth{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+
+
+/*////////////////////////////////////////////////////////REGISTRATION*/
+.content_reg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+.block_reg{
+    width: 300px;
+    & input{
+        width: 100%;
+    }
+    & h1{
+        text-align: center;
+    }
+    & p{
+        margin: 5px 0;
+        margin-top: 15px;
+    }
+}
+.content_changeProfile{
+    margin: 0 200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+    gap: 100px;
+    & img{
+        height: 120px;
+        width: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    & p{
+        margin: 25px 0 5px 0;
+     
+    }
+    & .btn{
+        margin-top: 20px;
+    }
+}
+.abs_info{
+    text-align: center;
+}
+.change_info{
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    & input{
+        
+        width: 100%;
+    }
+    & h1{
+        text-align: center;
+        margin: 0;
+    }
+}
+
+.hidden{
+    display: none;
+}
+.link_chats{
+    justify-self: left;
+}
+.content_profile{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
