@@ -9,7 +9,7 @@ function _getById(sel){
     return document.getElementById(sel)
 }
 function timedOut(){////////////////////////////ВРЕМЯ СЕССИИ ИСТЕКЛО
-    _load('html/auth.html', doAuth)
+    _load('views/auth.html', doAuth)
 }
 
 function _load(url, callback){
@@ -120,9 +120,9 @@ const HOST = `http://api-messenger.web-srv.local`
 var TOKEN = ''
 
 
-_load('html/auth.html', doAuth)
+_load('views/auth.html', doAuth)
 
-var MyEmail = 'y13@mail.com'
+var MyEmail = 'yan@mail.com'
 //#region AUTH REG
 function doAuth(){
     _elem('header').classList.add('hidden')
@@ -130,7 +130,7 @@ function doAuth(){
         let req_data = new FormData();
         req_data.append('email', _elem('.email_auth').value)
         
-        console.log( _elem('.email').value )
+        console.log( _elem('.email_auth').value )
         req_data.append('pass', _elem('.pass').value)
 
         let xhr = new XMLHttpRequest();
@@ -141,8 +141,7 @@ function doAuth(){
                 if (xhr.status == 200){
                     TOKEN = JSON.parse(xhr.responseText)["Data"]["token"]
                     console.log(JSON.parse(xhr.responseText)["Data"]["token"])
-                    
-                    _load(`html/main_page.html`, doMainPage)
+                    _load(`views/main_page.html`, doMainPage)
                 }else{
                     _elem('.block_error').textContent = (JSON.parse(xhr.responseText)).message
                 } 
@@ -151,7 +150,7 @@ function doAuth(){
         console.log(1)
     })
     _event('.btn_reg', function(){
-        _load('html/registration.html', doReg)
+        _load('views/registration.html', doReg)
     })
 }
 function doReg(){
@@ -175,7 +174,7 @@ function doReg(){
                 }else{
                     TOKEN = JSON.parse(xhr.responseText)["Data"]["token"]
                     console.log(JSON.parse(xhr.responseText))
-                    _get('html/main_page.html', doMainPage)
+                    _get('views/main_page.html', doMainPage)
                 }
                 
             }
@@ -196,6 +195,38 @@ function doReg(){
 //#region CHATS
 
 function doMainPage(){
+    _elem('header').classList.remove('hidden')
+
+    //#region MENU and PROFILE
+
+    _event('.btn_create_chat', function(){
+        let email_req = new FormData()
+        email_req.append('email', _elem('.input_create_chat input').value)
+        _post(`${HOST}/chats`, email_req, function(res){
+            
+            if (res.status == 200){
+                _elem('.block_message').textContent = 'Чат успешно создан'
+            }else{
+                
+                _elem('.block_message').textContent = 'Чат с данным пользователем уже существует'
+            }
+            
+        })
+    })
+
+    //профиль
+    _event('header img', function(){
+        doProfile()
+    })
+
+    //сброс токена и выход
+    _elem('.btn_logout').addEventListener('click', function(){
+        _delete(`${HOST}/auth`)
+        _elem('.block_profile').classList.toggle('hidden')
+        _load('views/auth.html', doAuth)
+
+    })
+
     _elem('header').classList.remove('hidden')
     //получаем список чатов с обработчиками
     makeChats() 
@@ -220,7 +251,7 @@ function doMainPage(){
                 //ЕСЛИ КАКОГО ТО ЧАТА НЕТ, ТО СТРОИМ ЕГО
                 if (!(document.getElementById(chat_id))){
                     let chatBlock = document.createElement('div')
-                    chatBlock.className = 'block_chat';
+                    chatBlock.className = 'chat';
                     chatBlock.setAttribute('id', chat_id)//каждому чату свой id
                     let chatBlockText = document.createElement('p')
                     chatBlockText.setAttribute('id', el["companion_email"])
@@ -258,14 +289,18 @@ function makeChats(){
 
             let chat_id = element["chat_id"]
             if (!(document.getElementById(chat_id))){
+
                 let chatBlock = document.createElement('div')
-                chatBlock.className = 'block_chat';
+                chatBlock.className = 'chat';
                 chatBlock.setAttribute('id', chat_id)//каждому чату свой id
                 let chatBlockText = document.createElement('p')
                 chatBlockText.setAttribute('id', element["companion_email"])
+                let chatBlockPoint = document.createElement('div')
+                chatBlockPoint.className = 'point';
 
                 chatBlockText.textContent = element.chat_name; //отображаем название чата
                 chatBlock.append(chatBlockText)
+                chatBlock.append(chatBlockPoint)
              
                 _elem('.list_chats').append(chatBlock)//аппендим каждый блок чата в список чатов
             }
@@ -278,11 +313,11 @@ function makeChats(){
 
 
         //навешиваем обаботчики на чаты
-        document.querySelectorAll('.block_chat').forEach(el => {
+        document.querySelectorAll('.chat').forEach(el => {
 
             //при нажатии на блок чата выводим сообщения в диалоговое окно
             el.addEventListener('click', function(){
-                makeActiveChat(el, document.querySelectorAll('.block_chat'))
+                makeActiveChat(el, document.querySelectorAll('.chat'))
 
                 //очищаем окно с сообщениями
                 _elem('.block_messages').textContent = '';
@@ -293,18 +328,18 @@ function makeChats(){
             })
         })
 
-        document.querySelectorAll('.block_chat p').forEach(element => {
+        document.querySelectorAll('.chat p').forEach(element => {
             element.addEventListener('click', function(){
-                _load('html/usersProfiles.html', showUserProfile(element.getAttribute('id')))
+                _load('views/usersProfiles.html', showUserProfile(element.getAttribute('id')))
             })
         })
     })
 }
 function makeActiveChat(el, array){
     array.forEach(elem=>{
-        elem.classList.remove('block_chat_active')
+        elem.classList.remove('chat_active')
     })
-    el.classList.toggle('block_chat_active')
+    el.classList.toggle('chat_active')
 }
 
 function showUserProfile(email){
@@ -316,7 +351,7 @@ function showUserProfile(email){
         _elem('.page_profile .otch').textContent = res["otch"]
         _elem('.page_profile .email').textContent = res["email"]
          _event('.link_chats', function(){
-            _load('html/main_page.html', doMainPage)
+            _load('views/main_page.html', doMainPage)
         })
     } )
    
@@ -385,35 +420,6 @@ function showMessages(el){
 
 
 
-//#region MENU and PROFILE
-
-_event('.btn_create_chat', function(){
-    let email_req = new FormData()
-    email_req.append('email', _elem('.input_create_chat input').value)
-    _post(`${HOST}/chats`, email_req, function(res){
-        
-        if (res.status == 200){
-            _elem('.block_message').textContent = 'Чат успешно создан'
-        }else{
-            
-            _elem('.block_message').textContent = 'Чат с данным пользователем уже существует'
-        }
-        
-    })
-})
-
-//профиль
-_event('.block_header img', function(){
-    doProfile()
-})
-
-//сброс токена и выход
-_elem('.btn_logout').addEventListener('click', function(){
-    _delete(`${HOST}/auth`)
-    _elem('.block_profile').classList.toggle('hidden')
-    _load('html/auth.html', doAuth)
-
-})
 
 //показать профиль текущего пользователя
 function doProfile(){
@@ -440,7 +446,7 @@ function doProfile(){
     _event('.btn_toPage_changeProfile', function(){
          
         _elem('.block_profile').classList.toggle('hidden')
-        _load('html/changeProfile.html', changeProfile)
+        _load('views/changeProfile.html', changeProfile)
     })
 }
 
@@ -480,7 +486,7 @@ function changeProfile(){
         })
     })
     _event('.link_chats', function(){
-        _load('html/main_page.html', doMainPage)
+        _load('views/main_page.html', doMainPage)
     })
 }
 //#endregion
