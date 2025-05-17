@@ -88,6 +88,8 @@ function _put(url, data, callback){
                     callback(xhr)   
                 }
             }
+           
+           
         }
     }
 }
@@ -210,9 +212,7 @@ function doReg(){
 //#region CHATS
 
 function doMainPage(){
-    
-        
-  
+   
     _elem('header').classList.remove('hidden')
     //получаем список чатов с обработчиками
     makeChats() 
@@ -222,11 +222,10 @@ function doMainPage(){
     let timer = setInterval(function(){
         //ОТПРАВЛЯЕМ  ЗАПРОС КАЖДЫЕ 300МС
         _get(`${HOST}/chats`, function(response){
-            
             response = JSON.parse(response)
             response.forEach(el => {   //ПЕРЕБИРАЕМ ЧАТЫ
                 let chat_id = el["chat_id"]//ЗАПИСАЛИ ОТДЕЛЬНО ID ЧАТА
-               
+
                 //ЕСЛИ ВРЕМЯ ПОСЛЕДНЕГО СООБЩЕНИЯ В ЗАПРОСЕ ОТЛИЧАЕТСЯ ОТ ТОГО, ЧТО ХРАНИТСЯ В ХРОМЕ, ТО
                 if (el["chat_last_message"] != localStorage.getItem(chat_id) ){
                     
@@ -259,10 +258,8 @@ function doMainPage(){
             timedOut()
             clearInterval(timer)
         }
-    },30000)
+    },300)
    
-
-
     _event('.btn_create_chat', function(){
         let email_req = new FormData()
         email_req.append('email', _elem('.form_createChat input').value)
@@ -297,20 +294,9 @@ function doMainPage(){
     })
 }
 
-function func_sendMes(chat_id){             
-    let text = _elem('.send_message input').value
-    let req_data_mes = new FormData();
-    req_data_mes.append('chat_id', chat_id)
-    req_data_mes.append('text', text)
-    _post(`${HOST}/messages`, req_data_mes, function(res){
-        _elem('.content_messages').textContent = ''
-        showMessages(chat_id)
-    })
-   // _elem('.send_message button').removeEventListener('click', func_sendMes())
-    
-}
+
 function makeChats(){
-    
+
     //получаем список чатов и выводим в окно с чатами
     _get(`${HOST}/chats`, function(res_chats){
 
@@ -324,129 +310,96 @@ function makeChats(){
             // ЕСЛИ В ДОКУМЕНТЕ НЕТ ЧАТА С ТАКИМ ID, ТО СОЗДАЁМ ЕГО (В НАЧАЛЕ НЕТ НИКАКИХ ID) 
 
             let chat_id = element["chat_id"]
-            
             //alert(chat_id)
             if (!(document.getElementById(chat_id))){
                 let chatBlock = document.createElement('div')
                 chatBlock.className = 'chat';
-
-                    
-
-                        //при нажатии на блок чата выводим сообщения в диалоговое окно
-                        chatBlock.addEventListener('click', function(){
-                            makeActiveChat(chatBlock, document.querySelectorAll('.chat'))
-                            chat_id = chatBlock.getAttribute('id')
-                            _elem('.send_message button').addEventListener('click', func_sendMes(chat_id))
-                            _elem('.content_messages').textContent = ''
-                        // sendMessage(chat_id)//ОТПРАВКА СООБЩЕНИЙ - ОБРАБОТКА INPUT
-                                            
-                            showMessages(chat_id)//ВЫВЕСТИ СООБЩЕНИЯ
-                            
-                           
-                                
-                              
-                            
-                        })
-                    
-
+                
                 chatBlock.setAttribute('id', chat_id)//каждому чату свой id
                 let chatBlockText = document.createElement('p')
                 chatBlockText.setAttribute('id', element["companion_email"])
 
-                
-                    chatBlockText.addEventListener('click', function(){
-                        _elem('.page_profile').classList.toggle('hidden')
-                        _elem('section').classList.toggle('brightness')
-                        _elem('header').classList.toggle('brightness')
-                        showUserProfile(element["companion_email"])
-                    })
-                
-
                 chatBlockText.textContent = element.chat_name; //отображаем название чата
                 let change = document.createElement('div')
-                change.setAttribute('class', 'change')
-                    change.addEventListener('click', function(){
-                        _elem('.change_chatName').classList.toggle('hidden')
-                        _event('.change_chatName button', function(){
-                            let new_chatName = _elem('.change_chatName input').value
-                            let req_data_newName = new FormData()
-                            req_data_newName.append('chat_id', chat_id)
-                            req_data_newName.append('chat_name', new_chatName)
-                            _post(`${HOST}/chats`,req_data_newName, function(res){
-                                if (res.status == 422){
-                                     _elem('.message_change_chat').textContent = (JSON.parse(res.responseText)).message
-                                }
-                               
-                            })
-                        }, {once:true})
-                       
-                    })
-                // document.querySelectorAll('.change').forEach(element => {
-                    
-                // })
+                change.className = 'change'
                 let point = document.createElement('div')
                 point.className = 'point'
                 chatBlock.append(chatBlockText)
                 chatBlock.append(change)
                 chatBlock.append(point)
-                
+                  
                 _elem('.list_chats').append(chatBlock)//аппендим каждый блок чата в список чатов
-
             }
            
             //ЗАПИСЫВАЕМ В ПАМЯТЬ БРАУЗЕРА ID ЧАТА И ВРЕМЯ ПОСЛЕДНЕГО СООБЩЕНИЯ В НЁМ
             localStorage.setItem(chat_id, element["chat_last_message"])
         });
-       // chats()
+        chats()
 
     })
   
 }
+function showUserProfile(email){
+    _get(`${HOST}/user/?email=${email}`, function(res){
+        res = JSON.parse(res)
+        //_elem('.page_profile img').setAttribute('src', res["photo_link"])
+        _elem('.page_profile .name').textContent = res["name"]
+        _elem('.page_profile .fam').textContent = res["fam"]
+        _elem('.page_profile .otch').textContent = res["otch"]
+        _elem('.page_profile .email').textContent = res["email"]
+        _event('.back_profile', function(){
+            _elem('.page_profile').classList.toggle('hidden')
+                _elem('section').classList.toggle('brightness')
+                _elem('header').classList.toggle('brightness')
+        })
+    } )
+  
+   
+}
+function chats(){
+//навешиваем обаботчики на чаты
 
-// function chats(){
-// //навешиваем обаботчики на чаты
+    document.querySelectorAll('.chat p').forEach(element => {
+        element.addEventListener('click', function(){
+            _elem('.page_profile').classList.toggle('hidden')
+            _elem('section').classList.toggle('brightness')
+            _elem('header').classList.toggle('brightness')
+            showUserProfile(element.getAttribute('id'))
+            //_load('views/usersProfiles.html', showUserProfile(element.getAttribute('id')))
+        })
+    })
 
-//     document.querySelectorAll('.chat p').forEach(element => {
-//         element.addEventListener('click', function(){
-//             _elem('.page_profile').classList.toggle('hidden')
-//             _elem('section').classList.toggle('brightness')
-//             _elem('header').classList.toggle('brightness')
-//             showUserProfile(element.getAttribute('id'))
-//             //_load('views/usersProfiles.html', showUserProfile(element.getAttribute('id')))
-//         })
-//     })
+    //#region Изменить название чата!!!!
+    document.querySelectorAll('.change').forEach(element => {
+        _event('.change_chatName button', function(){
+            let new_chatName = _elem('.change_chatName input').value
+        })
+    })
+    document.querySelectorAll('.chat').forEach(el => {
 
-//     //#region Изменить название чата!!!!
-//     document.querySelectorAll('.change').forEach(element => {
-//         _event('.change_chatName button', function(){
-//             let new_chatName = _elem('.change_chatName input').value
-//         })
-//     })
-//     document.querySelectorAll('.chat').forEach(el => {
-
-//         //при нажатии на блок чата выводим сообщения в диалоговое окно
-//         el.addEventListener('click', function(){
-//              makeActiveChat(el, document.querySelectorAll('.chat'))
-//             chat_id = el.getAttribute('id')
-//             _elem('.content_messages').textContent = ''
-//            // sendMessage(chat_id)//ОТПРАВКА СООБЩЕНИЙ - ОБРАБОТКА INPUT
+        //при нажатии на блок чата выводим сообщения в диалоговое окно
+        el.addEventListener('click', function(){
+             makeActiveChat(el, document.querySelectorAll('.chat'))
+            chat_id = el.getAttribute('id')
+            _elem('.content_messages').textContent = ''
+           // sendMessage(chat_id)//ОТПРАВКА СООБЩЕНИЙ - ОБРАБОТКА INPUT
             
-//             showMessages(chat_id)//ВЫВЕСТИ СООБЩЕНИЯ
-//             _event('.send_message button', function(){
-//                 let text = _elem('.send_message input').value
-//                 let req_data_mes = new FormData();
-//                 req_data_mes.append('chat_id', chat_id)
-//                 req_data_mes.append('text', text)
+            showMessages(chat_id)//ВЫВЕСТИ СООБЩЕНИЯ
+            _event('.send_message button', function(){
+                let text = _elem('.send_message input').value
+                let req_data_mes = new FormData();
+                req_data_mes.append('chat_id', chat_id)
+                req_data_mes.append('text', text)
                 
-//                 _post(`${HOST}/messages`, req_data_mes, function(res){
-//                     console.log(11)
-//                 })
-//             })
-//         })
-//     })
+                _post(`${HOST}/messages`, req_data_mes, function(res){
+                    console.log(11)
+                })
+            })
+        })
+    })
     
     
-// }
+}
 function makeActiveChat(el, array){
     array.forEach(elem=>{
         elem.classList.remove('chat_active')
@@ -456,20 +409,20 @@ function makeActiveChat(el, array){
 
 
 //ОТПРАВКА СООБЩЕНИЯ - ОБРАБОТКА INPUT
-// function sendMessage(chat_id){
-//    // _elem('.sendMessage').removeEventListener('click', funcSendMesage)
-//     //alert(chat_id)
-//     _event('.send_message button', function(){
-//         let text = _elem('.send_message input').value
-//         let req_data_mes = new FormData();
-//         req_data_mes.append('chat_id', chat_id)
-//         req_data_mes.append('text', text)
+function sendMessage(chat_id){
+   // _elem('.sendMessage').removeEventListener('click', funcSendMesage)
+    //alert(chat_id)
+    _event('.send_message button', function(){
+        let text = _elem('.send_message input').value
+        let req_data_mes = new FormData();
+        req_data_mes.append('chat_id', chat_id)
+        req_data_mes.append('text', text)
         
-//         _post(`${HOST}/messages`, req_data_mes, function(res){
-//             console.log(11)
-//         })
-//     })
-// }
+        _post(`${HOST}/messages`, req_data_mes, function(res){
+            console.log(11)
+        })
+    })
+}
 
 //ВЫВЕСТИ СООБЩЕНИЯ
 function showMessages(el){
@@ -513,23 +466,7 @@ function showMessages(el){
 }
 //#endregion
 
-function showUserProfile(email){
-    _get(`${HOST}/user/?email=${email}`, function(res){
-        res = JSON.parse(res)
-        //_elem('.page_profile img').setAttribute('src', res["photo_link"])
-        _elem('.page_profile .name').textContent = res["name"]
-        _elem('.page_profile .fam').textContent = res["fam"]
-        _elem('.page_profile .otch').textContent = res["otch"]
-        _elem('.page_profile .email').textContent = res["email"]
-        _event('.back_profile', function(){
-            _elem('.page_profile').classList.toggle('hidden')
-                _elem('section').classList.toggle('brightness')
-                _elem('header').classList.toggle('brightness')
-        })
-    } )
-  
-   
-}
+
 
 
 

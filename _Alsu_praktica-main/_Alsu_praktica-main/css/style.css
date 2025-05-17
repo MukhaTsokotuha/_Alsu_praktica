@@ -1,0 +1,235 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+body{
+    background-color: #1E1E1E;
+    color: #fff;
+}
+
+/*///////////////////////////////////////////////////////HEADER*/
+header{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 120px;
+    align-items: center;
+    background-color: #252526;
+  
+}
+.block_profile{
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    & h3{
+        font-size: 25px;
+        cursor: pointer;
+    }
+    & img{
+        height: 60px;
+        width: 60px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+}
+.btn{
+    padding: 10px 15px;
+    border-radius: 1dvh ;
+    border: none;
+    background-color: rgb(11, 122, 212);
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+section{
+    padding: 45px  5vw;
+}
+.content{
+    display: flex;
+    gap: 30px;
+}
+
+
+/*///////////////////////////////////////////////////////////////////////ЧАТЫ*/
+.block_chats{
+    width: 50%;
+    background-color: #fff;
+    height: 80vh;
+    background-color: #333333;
+}
+.header_chats{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+    margin-top: -35px;
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    gap: 25px;
+    & label{
+        display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+    & .btn{
+        font-size: 11px;
+    }
+}
+.chat{
+    height: 60px;
+    background-color: #324252;
+    margin: 1px;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+}
+.chat_active{
+    border: 2px solid rgb(11, 122, 212);
+    background-color: #3e556bef;
+}
+.profile_chat{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+.chat img{
+    height: 45px;
+    width: 45px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.point{
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: rgb(11, 122, 212);
+    margin-right: 10px;
+    display: none;
+}
+.chat_flag{
+    background-color: antiquewhite;
+    & .point{
+        display: block;
+    }
+}
+
+/*/////////////////////////////////////////////////////////////////////СООБЩЕНИЯ*/
+.block_messages{
+    position: relative;
+    width: 50%;
+    background-color: #333333;
+    
+}
+.header_message{
+    background-color: rgb(39, 41, 40);
+    padding: 15px;
+    height: 10%;
+}
+.content_messages{
+    height: 82%;
+    padding: 10px;
+}
+.input_message{
+    padding: 5px;
+    height: 8%;
+    display: grid;
+    grid-template-columns: 9fr 1fr;
+    gap: 5px;
+    & button{
+        border: none;
+        background-color: rgb(11, 122, 212);
+    }
+}
+
+.content_messages{
+    display: flex;
+    
+    flex-direction: column-reverse;
+    
+    justify-content: flex-end;
+}
+.message{
+    background-color: #324252;
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 1dvh;
+}
+.message2{
+    align-self: flex-start;
+  
+}
+.message1{
+    align-self: flex-end;
+    background-color:  rgba(11, 122, 212, 0.479);
+}
+
+/*//////////////////////////////////////////////////////////СТРАНИЦА ПРОФИЛЯ*/
+.link_chats{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.link_chats img{
+    height: 30px;
+    cursor: pointer;
+}
+.link_chats a{
+    text-decoration: none;
+    color: #fff;
+    padding: 3px 0;
+    border-bottom: 1px solid;
+}
+
+.page_profile{
+    margin-left: 35%;
+
+    line-height: 2;
+
+    & img{
+        height: 300px;
+        width: 300px;
+        object-fit: cover;
+        border-radius: 50%;
+
+    }
+    & p{
+        line-height: 1;
+        padding-right: 30%;
+    }
+}
+
+
+
+.content_auth{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+.block_auth{
+
+    width: 30vw;
+  
+    text-align: center;
+    gap: 20px;
+    & p{
+        text-align: left;
+    }
+    & input{
+        padding: 10px ;
+        width: 100%;
+        margin: 10px 0;
+    }
+    & h1{
+        font-size: 40px;
+        margin-bottom: 25px;
+    }
+    & .btn{
+        margin-top:20px
+    }
+}

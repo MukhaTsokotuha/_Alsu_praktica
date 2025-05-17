@@ -1,0 +1,244 @@
+/* ДЛЯ ПРОФИЛЯ
+.block_createChat{
+    filter: brightness(0.7);
+}
+.section{
+    filter: brightness(0.4);
+}
+.userProfile{
+    display: none;
+}
+*/
+.hidden{
+    display: none;
+}
+.userProfile{
+    position: absolute;
+    background-color: #3ACC91;
+    width: auto;
+    z-index: 10;
+    left: 20%;
+    min-width: 250px;
+    display: none;
+}
+.info_userProfile{
+    padding: 20px ;
+    text-align: left;
+    & p{
+        padding: 10px ;
+    }
+}
+.buttons_userProfile{
+    display: flex;
+    & button{
+        border: none;
+        color: #fff;
+        background-color: rgb(60, 148, 207);
+        padding: 5px;
+        width: 100%;
+        transition: .2s linear;
+    }
+    & .btn_logout{
+        color:#fff;
+        font-weight: 600;
+        background-color: #cc503a;
+    }
+    & .btn_logout:hover{
+       
+
+         color: #cc503a;
+        font-weight: 600;
+        background-color: #fff
+    }
+    & .btn_toChangeProfile:hover{
+        color: rgb(60, 148, 207);
+        font-weight: 600;
+        background-color: #fff;
+    }
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+
+    background-color: rgb(4, 72, 110);
+    background-color: rgb(60, 133, 182);
+    background-color: rgb(45, 64, 75);
+}
+header{
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    height: 15vh;
+    align-items: center;
+       
+}
+.section{
+    height: 85vh;
+    display: grid;
+    grid-template-columns: 4fr 6fr;
+
+}
+/*//////////////////////////ШАПКА*/
+.block_profile{
+    text-align: center;
+    color: #fff;
+    position: relative;
+    & img{
+        height: 90px;
+        width: 90px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+}
+
+
+
+
+
+
+.block_createChat{
+    margin: auto 20px;
+}
+
+.margin_block_createChat{
+    padding: 3vh;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    background-color: rgb(60, 148, 207);;
+    color: #fff;
+    & p{
+        padding-bottom: 10px;
+        font-weight: 600;
+    }
+}
+.form_createChat{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    & input{
+        height: 24px;
+        border: none;
+    }
+}
+.btn_createChat{
+    border: none;
+    background-color: rgba(17, 250, 106, 0.589);
+    font-weight: 700;
+    color: #fff;
+    padding: 5px;
+    height: 24px;
+}
+.btn_createChat:hover{
+    background-color: rgba(17, 250, 29, 0.336);
+}
+
+
+
+
+/*///////////////////////БЛОК ЧАТОВ*/
+.block_chats{
+    height: 85vh;
+    padding: 20px;
+    padding-bottom: 14px;
+}
+.list_chats{
+    height: 95%;
+    overflow-y: auto;
+    margin: 20px;
+    color: #fff;
+    background-color: rgb(12, 116, 201);
+    background-color: rgb(60, 133, 182);;
+}
+.chat{
+    height: 50px;
+    border-bottom: 1px solid #ffffff60; 
+    display: flex;
+    justify-content: space-between;
+    padding-left: 10px;
+    align-items: center;
+
+}
+.chat_active{
+    background-color:  rgba(17, 250, 106, 0.589);
+    box-shadow: 0px 1px 1px #fff ;
+}
+.point{
+    margin-right: 17px;
+    background-color: #fff;
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    display: none;
+}
+
+.chat_newMessage{
+    background-color:  rgb(60, 133, 182);
+    filter: brightness(0.8) ;
+    & .point{
+        display: block;
+    }
+}
+
+
+/*////////////////////////////////////////СООБЩЕНИЯ*/
+.block_messages{
+    height: 85vh;
+    padding: 20px;
+    margin: auto 0;
+}
+.margin_block_messages{
+    background-color: rgb(60, 133, 182);
+    height: 100%;
+    display: grid;
+    grid-template-rows: 17fr 1fr;
+
+}
+.content_messages{
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    gap: 15px;
+}
+.my_message{
+    background-color: rgba(17, 250, 106, 0.589);
+    padding: 15px;
+    max-width: 40%;
+    border-radius: 1dvh;
+    align-self: flex-end;
+}
+.companion_message{
+    background-color: rgba(17, 196, 250, 0.589);
+    padding: 15px;
+    max-width: 40%;
+
+    align-self: flex-start;
+    border-radius: 1dvh;
+}
+
+.send_message{
+    display: flex;
+    & input{
+        height: 100%;
+        width: 90%;
+        border: none;
+    }
+    & button{
+        width: 10%;
+        border: none;
+        background-color: rgb(17, 250, 106);
+        background-color: rgba(17, 250, 106, 0.76);
+        color: #fff;
+        
+    }
+    & button:hover{
+        background-color: rgba(17, 250, 29, 0.555);
+    }
+}
+
+
