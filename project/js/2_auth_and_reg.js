@@ -21,7 +21,7 @@ function doLoginPage(){
                 _elem('.form_auth').style.display = 'flex'
                 _elem('.block_auth_btn').style.display = 'flex'
                 _elem('.block_reg_btn').style.display = 'none'
-                _elem('.block_auth_and_reg').style = ' background-color: #3ACC91; '
+                _elem('.block_auth_and_reg').style = ' background-color:#43B597; '
             })
 
             _event('.btn_auth', function(){

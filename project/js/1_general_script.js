@@ -1,5 +1,5 @@
 //#region Combains
-function timeOut(){
+function timedOut(){
     flag = 1//очистка таймера
     localStorage.setItem('token','')
     localStorage.setItem('myEmail','')
@@ -34,7 +34,7 @@ function _errors(xhr, div_block){//общая функция обработки 
     }else if (xhr.status == 404){
         _load('views/auth_and_reg.html', doLoginPage)
     }else{
-        timeOut()
+        timedOut()
     }
 }
 function _load(url, callback,div_block){

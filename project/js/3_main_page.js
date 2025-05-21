@@ -1,6 +1,8 @@
+
+
 function doMainPage(){
     flag=0
-    //showNewMessage()
+
     makeChats() //получаем список чатов с обработчиками
     
     let timer = setInterval(function(){//ЗАПУСКАЕМ ТАЙМЕР
@@ -12,6 +14,7 @@ function doMainPage(){
         }
     },300)
     _event('.btn_create_chat', function(){
+        _text('.answer_text', '')
         let email_req = new FormData()
         email_req.append('email', _elem('.form_createChat input').value)
         _post(`${HOST}/chats`, email_req, function(res){
@@ -22,9 +25,11 @@ function doMainPage(){
     //профиль
     _get(`${HOST}/user`, function(res){
         res = JSON.parse(res)
+
+        _text('.user_name', res.name)
         _elem('.block_profile img').setAttribute('src', `${HOST}/${res.photo_link}`)
     })
-    _event('header img', function(){
+    _event('.block_profile img', function(){
         doProfile()
     })
     //Удалить пользователя
@@ -41,10 +46,10 @@ function showNewMessage(){
         response.forEach(el => {   //ПЕРЕБИРАЕМ ЧАТЫ
             let chat_id = el["chat_id"]//ЗАПИСАЛИ ОТДЕЛЬНО ID ЧАТА
             //ЕСЛИ ВРЕМЯ ПОСЛЕДНЕГО СООБЩЕНИЯ В ЗАПРОСЕ ОТЛИЧАЕТСЯ ОТ ТОГО, ЧТО ХРАНИТСЯ В ХРОМЕ, ТО
-           
             if (el["chat_last_message"] != localStorage.getItem(chat_id) ){
                 //alert(1)
-                  showMessages(chat_id)
+                showMessages(chat_id)
+                makeActiveChat(_getById(chat_id), chat_id)
                 let chat_with_new_message = _getById(chat_id)
                 chat_with_new_message.classList.add('new_message')//выделяем красным
                 chat_with_new_message.addEventListener('click', function(){//после нажатия убираем красный
@@ -57,7 +62,7 @@ function showNewMessage(){
 }
 
 function makeChats(){
-    //showNewMessage()
+
     //получить список чатов и вывести в окно с чатами
     _get(`${HOST}/chats`, function(res_chats){
         res_chats = JSON.parse(res_chats)
@@ -84,21 +89,21 @@ function makeChats(){
                 change.className = 'change'
                 //#region обр. change
                 change.setAttribute('class', 'change')
+                change.setAttribute('title','Изменить имя чата')
                 change.addEventListener('click', function(){
-                    changeChatName(chat_id)
+                    changeChatName(chat_id, chatBlock)
                 })
                 //#endregion
-                let point = document.createElement('div')
-                point.className = 'point'
-                point.setAttribute('id', `point_${chat_id}`)//присваиваем каждой метке свой id
+               
+              
 
                 chatBlock.append(chatBlockText)//аппендим всё
                 chatBlock.append(change)
-                chatBlock.append(point)
+             
                 _elem('.list_chats').append(chatBlock)
                 //#region обр. chat
                 chatBlock.addEventListener('click', function(){
-                    makeActiveChat(chatBlock, document.querySelectorAll('.chat'),chat_id)
+                    makeActiveChat(chatBlock,chat_id)
                     //chat_id = chatBlock.getAttribute('id')
                     _elem('.content_messages').textContent = ''
                   
@@ -110,28 +115,27 @@ function makeChats(){
                 //обработчик на кнопку отправки сообшения
                 sendMessages(chat_id)
             }
-            if (element["chat_last_message"] != localStorage.getItem(chat_id) ){
+            showNewMessage()
+            // if (element["chat_last_message"] != localStorage.getItem(chat_id) ){
                 
-                //showMessages(chat_id)//ВЫВЕСТИ СООБЩЕНИЯ 
-                if (chat_id != localStorage.getItem('current_chat')){
-                    _getById(chat_id).classList.add('class','new_message')
-                    _getById(chat_id).addEventListener('click', function(){//после нажатия убираем красный
-                        _getById(chat_id).classList.remove('new_message')
-                        showMessages(chat_id)//ВЫВЕСТИ СООБЩЕНИЯ 
-                    })
-                }else{
-                    showMessages(chat_id)
-                }
+            //     //showMessages(chat_id)//ВЫВЕСТИ СООБЩЕНИЯ 
+            //     if (chat_id != localStorage.getItem('current_chat')){
+            //         _getById(chat_id).classList.add('class','new_message')
+            //         _getById(chat_id).addEventListener('click', function(){//после нажатия убираем красный
+            //             _getById(chat_id).classList.remove('new_message')
+            //             showMessages(chat_id)//ВЫВЕСТИ СООБЩЕНИЯ 
+            //         })
+            //     }else{
+            //         showMessages(chat_id)
+            //     }
                   
-            }
+            // }
             
             //#region отметить непрочитанное сообщение
             
             //#endregion
-            //showNewMessage()
             //ЗАПИСЫВАЕМ В ПАМЯТЬ БРАУЗЕРА ID ЧАТА И ВРЕМЯ ПОСЛЕДНЕГО СООБЩЕНИЯ В НЁМ
             localStorage.setItem(chat_id, element["chat_last_message"])
-            // showNewMessage()
         });
     },'answer_text')
 }
@@ -153,7 +157,7 @@ function sendMessages(chat_id){
     })
 }
 //#endregion
-function changeChatName(chat_id){
+function changeChatName(chat_id, chatBlock){
     _elem('.change_chatName').classList.toggle('hidden')
     document.querySelector('.change_chatName button').addEventListener('click', function(){
         let new_chatName = _elem('.change_chatName input').value
@@ -162,13 +166,23 @@ function changeChatName(chat_id){
             //     _elem('.message_change_chat').textContent = (JSON.parse(res.responseText)).message
             // }
             _getById(chat_id).textContent = new_chatName
-              _elem('.change_chatName').classList.toggle('hidden')
+            _elem('.change_chatName').classList.toggle('hidden')
+            let change = document.createElement('div')
+            change.className = 'change'
+
+            change.setAttribute('class', 'change')
+            change.setAttribute('title','Изменить имя чата')
+            change.addEventListener('click', function(){
+                changeChatName(chat_id)
+            })
+            chatBlock.append(change)
         }, _elem('.message_change_chat'))
     })
+   
 }
 
-function makeActiveChat(el, array,chat_id){
-    array.forEach(elem=>{
+function makeActiveChat(el,chat_id){
+    document.querySelectorAll('.chat').forEach(elem=>{
         elem.classList.remove('chat_active')
     })
     el.classList.toggle('chat_active')

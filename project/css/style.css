@@ -5,7 +5,7 @@
 ::-webkit-scrollbar-thumb{
     border-radius: 10px;
     -webkit-box-shadow: 5px 5px 5px -5px rgba(34,60,80,0.2) inset;
-    background:linear-gradient(180deg, #4ae1a57e, #109ec2);
+    background:linear-gradient(180deg, #7ee4bb7e, #7acce0);
 }
 .brightness{
     filter: brightness(0.7);
@@ -36,6 +36,7 @@
    
     background-color: rgb(60, 148, 207);
      background-color: #3ACC91;
+      background-color:  #43B597;
     & input{
         width: 320px;
         height: 30px;
@@ -70,13 +71,13 @@
     padding: 10px 15px;
     font-weight: 600;
     color: #fff;
-    background-color: #3ACC91;
+
+    background-color:  #43B597;
     border-radius: 1dvh;
+    transition: .3s linear;
 }
 .btn_reg:hover{
-
-    background-color:  #4ae1a5;;
-    border-radius: 1dvh;
+    color: #333;
 }
 
 /*кнопка авторизации*/
@@ -103,15 +104,12 @@
     color: #fff;
     background-color:  rgb(60, 148, 207);
     border-radius: 1dvh;
+    transition: .3s linear;
 }
 .btn_auth:hover{
+    color: #333;
+}
 
-    background-color:  rgb(63, 163, 230);
-    border-radius: 1dvh;
-}
-.buttons_auth_and_reg button{
-    cursor: pointer;
-}
 
 
 
@@ -132,9 +130,12 @@
         
     }
     & .tumb_auth{
+        background-color:  #43B597;
         border-top-left-radius: 2dvh;
+        cursor: pointer;
     }
     & .tumb_reg{
+        cursor: pointer;
        /* border-top-right-radius: 2dvh;*/
         background-color: rgb(60, 148, 207);
 
@@ -173,12 +174,12 @@
     margin: 5px 37%;
     border: none;
     padding: 5px 10px;
-    background-color:  rgba(17, 250, 106, 0.76);
+    background-color: #43B597;
     color: #fff;
     font-weight: 700;
 }
 .back_profile:hover{
-      background-color:  rgba(10, 192, 80, 0.952);
+    color: #333;
 }
 
 
@@ -187,26 +188,32 @@
 .userProfile{
     position: absolute;
     display: flex;
+  
     align-items: flex-start;
     gap: 15%;
+    left: -90px;
+    top: 15vh;
     width: auto;
     z-index: 10;
-    left: 20%;
-   
-   
+  
 }
 .info_userProfile{
     background-color: #3ACC91;
+    color: #333;
     min-width: 250px;
-    
 }
 
 .block_changeProfile{
-    margin-top: -6%;
     background-color: rgb(60, 148, 207);
     z-index: 100;
-    padding: 10px 40px;
+    position: absolute;
+    left: -36vw;
+    top: -10%;
+    padding: 20px 60px;
 
+    & input{
+        width: 230px;
+    }
     text-align: left;
     & h1{
         text-align: center;
@@ -256,6 +263,7 @@
 }
 .buttons_userProfile{
     display: flex;
+ 
     & button{
         border: none;
         color: #fff;
@@ -287,17 +295,21 @@
     box-sizing: border-box;
 }
 body{
-    background-color: rgb(45, 64, 75);
+    background-color: #1F1F1F;
 }
 header{
-    display: grid;
-    grid-template-columns: 1fr 5fr;
-    padding-right: 40px;
-    padding-left: 40px;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 90px;
+    padding-left: 60px;
     height: 15vh;
     align-items: center;
     background-color: #252526;
        
+}
+.logo{
+    height: 70px;
+    filter: saturate(70%)
 }
 .section{
     padding: 40px;
@@ -312,11 +324,14 @@ header{
 /*//////////////////////////ШАПКА*/
 .block_profile{
     text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 20px;
     position: relative;
     color: #fff;
     & img{
-        height: 70px;
-        width: 70px;
+        height: 80px;
+        width: 80px;
         object-fit: cover;
         border-radius: 50%;
     }
@@ -328,16 +343,20 @@ header{
 
 /*/////////////////////////СОЗДАТЬ ЧАТ*/
 .block_createChat{
-    margin: auto 0;
+   
+    display: flex;
+    align-items: center;
+    color: #fff;
+
 }
 
 .margin_block_createChat{
-    padding: 6px;
+    padding: 20px;
     padding-left: 25px;
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    background-color: rgb(64, 144, 197);
+    width: 100%;
+
+    background-color:#43B597;
+    
     color: #fff;
     & p{
         padding-bottom: 10px;
@@ -355,15 +374,15 @@ header{
 }
 .btn_create_chat{
     border: none;
-    background-color: rgba(17, 250, 106, 0.589);
+    background-color: aliceblue;
     font-weight: 700;
-    color: #fff;
+    color: #333;
     padding: 5px;
     height: 24px;
     transition: .2s linear;
 }
 .btn_create_chat:hover{
-    background-color: rgba(17, 250, 29, 0.336);
+    color: #43B597;
 }
 
 
@@ -373,8 +392,7 @@ header{
 .block_chats {
     height: 480px;
     display: grid;
-    grid-template-rows: 370px 46px 40px;
-    flex-direction: column;
+    grid-template-rows: 8fr;
 }
 .list_chats{
     
@@ -397,6 +415,7 @@ header{
 }
 .chat_active{
     background-color:  rgba(17, 250, 106, 0.589);
+     background-color:  #43B597;
     box-shadow: 0px 1px 1px #fff ;
     border: 2px solid;
 }
@@ -409,7 +428,8 @@ header{
     display: none;
 }
 .change{
-    background-color: #fff;
+    background: url('../images/pen.png') center no-repeat;
+        background-size: cover;
     width: 15px;
     height: 15px;
     margin-right: 13px;
@@ -471,7 +491,7 @@ header{
     background-color: rgba(17, 196, 250, 0.589);
     padding: 15px;
     max-width: 40%;
-     height: auto;
+    height: auto;
     text-wrap: wrap;
 
     align-self: flex-start;
@@ -490,45 +510,61 @@ header{
         border: none;
         background-color: rgb(17, 250, 106);
         background-color: rgba(17, 250, 106, 0.76);
-        color: #fff;
+         background-color: #3ACC91;
+         color: #fff;
+         transition: .3s linear;
+        font-weight: 500;
         
     }
     & button:hover{
-        background-color: rgba(17, 250, 29, 0.555);
+       
+          color: #333;
     }
 }
-
-
-.change_chatName{
-    background-color: aliceblue;
-
+.answer_text{
+    height: 100%;
+    width: 100%;
     display: flex;
     align-items: center;
+    background-color: #43B597;
+}
 
+.change_chatName{
+    background-color:  aliceblue;
     z-index: 100;
-    gap: 5px;
+ 
     padding: 15px;
-    
+    & p{
+        color: #333;
+        font-weight: 700;
+    }
+    & .block_change_chatName{
+        margin-top: 10px;
+        display: flex;
+        gap: 5px;
+     
+        align-items: center;
+    }
     & input{
-        height: 25px;
+        height: 30px;
+        width: 250px;
     
     }
 
     & button{
         border: none;
-        background-color: rgba(6, 80, 165, 0.767);
-        color: #fff;
-        padding: 5px;
+        background-color:  #43B597;
+        color: #333;
+        font-weight: 700;
+        height: 30px;
+        padding: 0 8px;
         transition: .3s linear;
     }
      & button:hover{
-        border: none;
         color: #fff;
-        background-color: rgb(6, 80, 165);
     }
     
 }
-
 .hidden{
     display: none;
 }
@@ -536,3 +572,6 @@ header{
     background-color: #cc503a;
 }
 
+.visibility{
+    visibility: hidden;
+}
