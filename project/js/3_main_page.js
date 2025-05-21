@@ -2,12 +2,13 @@
 
 function doMainPage(){
     flag=0
-
+    showNewMessage()
     makeChats() //получаем список чатов с обработчиками
-    
+ 
     let timer = setInterval(function(){//ЗАПУСКАЕМ ТАЙМЕР
-        
+     
         makeChats()
+         
         if (flag == 1){
             clearInterval(timer)
             timedOut()  
@@ -47,7 +48,6 @@ function showNewMessage(){
             let chat_id = el["chat_id"]//ЗАПИСАЛИ ОТДЕЛЬНО ID ЧАТА
             //ЕСЛИ ВРЕМЯ ПОСЛЕДНЕГО СООБЩЕНИЯ В ЗАПРОСЕ ОТЛИЧАЕТСЯ ОТ ТОГО, ЧТО ХРАНИТСЯ В ХРОМЕ, ТО
             if (el["chat_last_message"] != localStorage.getItem(chat_id) ){
-                //alert(1)
                 showMessages(chat_id)
                 makeActiveChat(_getById(chat_id), chat_id)
                 let chat_with_new_message = _getById(chat_id)
@@ -56,6 +56,7 @@ function showNewMessage(){
                     chat_with_new_message.classList.remove('new_message')
                 })
             }
+            localStorage.setItem(chat_id, el["chat_last_message"])
         })
         
     },'.answer_text')
@@ -116,26 +117,8 @@ function makeChats(){
                 sendMessages(chat_id)
             }
             showNewMessage()
-            // if (element["chat_last_message"] != localStorage.getItem(chat_id) ){
-                
-            //     //showMessages(chat_id)//ВЫВЕСТИ СООБЩЕНИЯ 
-            //     if (chat_id != localStorage.getItem('current_chat')){
-            //         _getById(chat_id).classList.add('class','new_message')
-            //         _getById(chat_id).addEventListener('click', function(){//после нажатия убираем красный
-            //             _getById(chat_id).classList.remove('new_message')
-            //             showMessages(chat_id)//ВЫВЕСТИ СООБЩЕНИЯ 
-            //         })
-            //     }else{
-            //         showMessages(chat_id)
-            //     }
-                  
-            // }
-            
-            //#region отметить непрочитанное сообщение
-            
-            //#endregion
             //ЗАПИСЫВАЕМ В ПАМЯТЬ БРАУЗЕРА ID ЧАТА И ВРЕМЯ ПОСЛЕДНЕГО СООБЩЕНИЯ В НЁМ
-            localStorage.setItem(chat_id, element["chat_last_message"])
+           
         });
     },'answer_text')
 }
@@ -144,7 +127,7 @@ function sendMessages(chat_id){
     
     document.querySelector('.send_message button').addEventListener('click', function(){
         if (_getById(chat_id).className == 'chat chat_active'){
-            //alert(2)
+         
             let text = _elem('.send_message input').value
             let req_data_mes = new FormData();
             req_data_mes.append('chat_id', chat_id)
@@ -186,13 +169,7 @@ function makeActiveChat(el,chat_id){
         elem.classList.remove('chat_active')
     })
     el.classList.toggle('chat_active')
-    localStorage.setItem('current_chat', chat_id)
-    // let mes_timer = setInterval(() => {
-    //     showMessages(chat_id)
-    //     if (localStorage.getItem('current_chat') != chat_id){
-    //         clearInterval(mes_timer)
-    //     }
-    // }, 200);
+    //localStorage.setItem('current_chat', chat_id)
 }
 
 function showUserProfile(email){
@@ -221,7 +198,6 @@ function showUserProfile(email){
 }
 
 function showMessages(el){
-    //alert(el)
     _text('.content_messages','')
     _get(`${HOST}/messages/?chat_id=${el}`, function(res_messages){
                    
