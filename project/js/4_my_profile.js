@@ -16,7 +16,7 @@ function doProfile(){
         _text('.fam_userProfile', res.fam)
         _text('.otch_userProfile', res.otch)
         _text('.email_userProfile', res.email)
-    },'.text_answer')
+    },'.answer_text')
     _elem('.btn_toChangeProfile').addEventListener('click', function(){
         _elem('.block_changeProfile').classList.toggle('hidden')
         changeProfile()
@@ -34,7 +34,7 @@ function changeProfile(){
         _getById('otch_changeProfile').textContent = res_profile["otch"]
         _getById('email_changeProfile').textContent = res_profile["email"]
         _getById('pass_changeProfile').textContent = res_profile["pass"]  
-    },'.text_answer')
+    },'.answer_text')
     //меняем данные
     _event('.btn_change_data', function(){
         let req_data = new FormData();
