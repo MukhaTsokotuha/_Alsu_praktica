@@ -3,6 +3,7 @@ function timedOut(){
     flag = 1//очистка таймера
     localStorage.setItem('token','')
     localStorage.setItem('myEmail','')
+    localStorage.setItem('oldPass', '')
     _load('views/1_auth_and_reg.html', doLoginPage)
 }
 function _elem(sel){

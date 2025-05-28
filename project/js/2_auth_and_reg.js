@@ -51,6 +51,9 @@ function doAuth(){
                 localStorage.setItem('token', TOKEN)
                 MyEmail=JSON.parse(xhr.responseText)["Data"]["email"]
                 localStorage.setItem('myEmail', MyEmail)
+                oldPass = JSON.parse(xhr.responseText)["Data"]["pass"]
+                alert(oldPass)
+                localStorage.setItem('oldPass',oldPass )
                // alert(1)
                 _load(`views/main_page.html`, doMainPage)
             }else{
@@ -88,10 +91,13 @@ function doReg(){
                 // console.log((JSON.parse(xhr.responseText)).message)
             }else {
                //_elem('.block_auth_btn .message_error').textContent = (JSON.parse(xhr.responseText)).message
-                  TOKEN = JSON.parse(xhr.responseText)["Data"]["token"]
-                MyEmail=JSON.parse(xhr.responseText)["Data"]["email"]
+                TOKEN = JSON.parse(xhr.responseText)["Data"]["token"]
+                MyEmail = JSON.parse(xhr.responseText)["Data"]["email"]
+                oldPass = JSON.parse(xhr.responseText)["Data"]["pass"]
+
+
                 localStorage.setItem('myEmail', MyEmail)
-               // alert(JSON.parse(xhr.responseText)["Data"]["token"])
+                localStorage.setItem('oldPass',oldPass )
                 localStorage.setItem('token', TOKEN)
                 _load('views/main_page.html', doMainPage)
                 

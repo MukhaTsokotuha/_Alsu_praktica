@@ -2,9 +2,31 @@
    <img src="images/l2.png" alt="" class="logo">
     <div class="block_profile">
         <p class="user_name">Name</p>
-        <img src="images/user_photo.jpeg" alt="">
-    
-        <div class="userProfile ">
+        <img src="" alt="">
+        
+        <div class="block_changePassword hidden">
+            <div class="text_changePassword">
+                <h1>Изменение пароля</h1>
+                <form action="">
+                    <label for="">
+                        <p>Старый пароль</p>
+                         <input id="oldPass" type="text" placeholder="Введите старый пароль">
+                    </label>
+                     <label for="">
+                        <p>Новый пароль</p>
+                         <input id="newPass_1" type="text" placeholder="Введите новый пароль">
+                    </label>
+                    <label for="">
+                        <input id="newPass_2" type="text" placeholder="Повторите новый пароль">
+                    </label>
+                  
+                    <button class="btn_changePass">Изменить</button>
+                    <div class="message_changePassword"></div>
+
+                </form>
+            </div>
+        </div>
+        <div class="userProfile">
             
             <div class="block_changeProfile hidden">
                 <div class="text_changeProfile">
@@ -33,11 +55,12 @@
                         <p>Email</p>
                         <input type="email" value="email" id="email_changeProfile">
                     </label>
-
-                    <label for="">
-                        <p>Пароль</p>
-                        <input type="text" value="pass" id="pass_changeProfile">
-                    </label>
+                    <br>
+                 
+                    <button class="btn_toChangePass">Изменить пароль</button>
+                   
+                  
+                   
                 </div>
                 
 
