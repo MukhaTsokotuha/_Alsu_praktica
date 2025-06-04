@@ -1,6 +1,7 @@
 
 
 function doMainPage(){
+    document.title = 'Сообщения'
     flag=0
     showNewMessage()
     makeChats() //получаем список чатов с обработчиками
@@ -42,6 +43,7 @@ function doMainPage(){
     })
 }
 function showNewMessage(){
+     var list = document.querySelector('link[rel="icon"]');
     _get(`${HOST}/chats`, function(response){
         response = JSON.parse(response)
         response.forEach(el => {   //ПЕРЕБИРАЕМ ЧАТЫ
@@ -54,7 +56,12 @@ function showNewMessage(){
                 chat_with_new_message.classList.add('new_message')//выделяем красным
                 chat_with_new_message.addEventListener('click', function(){//после нажатия убираем красный
                     chat_with_new_message.classList.remove('new_message')
+                    list.removeAttribute('href')
+                     list.setAttribute('href', 'images/l2.png');
                 })
+                document.title = 'Новое сообщение'
+               
+                list.setAttribute('href', 'images/конверт.png');
             }
             localStorage.setItem(chat_id, el["chat_last_message"])
         })
@@ -63,7 +70,7 @@ function showNewMessage(){
 }
 
 function makeChats(){
-
+    document.title = 'Сообщения'
     //получить список чатов и вывести в окно с чатами
     _get(`${HOST}/chats`, function(res_chats){
         res_chats = JSON.parse(res_chats)
@@ -124,7 +131,8 @@ function makeChats(){
 }
 //#region ? ОТПРАВКА СООБЩЕНИЯ
 function sendMessages(chat_id){
-    
+    _elem('.content_messages').textContent = ''
+ 
     document.querySelector('.send_message button').addEventListener('click', function(){
         if (_getById(chat_id).className == 'chat chat_active'){
          
@@ -134,10 +142,31 @@ function sendMessages(chat_id){
             req_data_mes.append('text', text)
             
             _post(`${HOST}/messages`, req_data_mes, function(res){
+                 _elem('.content_messages').textContent = ''
                 showMessages(chat_id)
             }, '.answer_text')
         }
     })
+    // document.querySelector('.send_message input').addEventListener('click', function(){
+
+    //     document.addEventListener('keydown', function(e){
+    //         if ((e.code == 'Enter')){
+    //             if (_getById(chat_id).className == 'chat chat_active'){
+            
+    //                 let text = _elem('.send_message input').value
+    //                 let req_data_mes = new FormData();
+    //                 req_data_mes.append('chat_id', chat_id)
+    //                 req_data_mes.append('text', text)
+                    
+    //                 _post(`${HOST}/messages`, req_data_mes, function(res){
+    //                     _elem('.content_messages').textContent = ''
+    //                     showMessages(chat_id)
+    //                 }, '.answer_text')
+    //             }
+    //         }
+    //     }, {once:true})
+    // })
+
 }
 //#endregion
 function changeChatName(chat_id, chatBlock){
@@ -198,7 +227,7 @@ function showUserProfile(email){
 }
 
 function showMessages(el){
-    _text('.content_messages','')
+     _elem('.content_messages').textContent = ''
     _get(`${HOST}/messages/?chat_id=${el}`, function(res_messages){
                    
         res_messages = JSON.parse(res_messages)

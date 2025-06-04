@@ -2,33 +2,47 @@
 
 _load('views/auth_and_reg.html', doLoginPage)
 
-
+var tumb = 0;
 function doLoginPage(){
+ 
     if (localStorage.getItem('token')){
+        
         _load('views/main_page.html', doMainPage)
+        
     }else{
+
+       
          _event('.tumb_reg', function(){
+            tumb = 1;
             _elem('.form_auth').style.display = 'none'
             _elem('.form_auth').style.display = 'none'
             _elem('.form_reg').style.display = 'flex'
             _elem('.block_reg_btn').style.display = 'flex'
             _elem('.block_auth_btn').style.display = 'none'
-                _elem('.block_auth_and_reg').style = 'background-color: rgb(60, 148, 207); '
-            })
-            _event('.tumb_auth', function(){
-                _elem('.form_reg').style.display = 'none'
-                _elem('.form_reg').style.display = 'none'
-                _elem('.form_auth').style.display = 'flex'
-                _elem('.block_auth_btn').style.display = 'flex'
-                _elem('.block_reg_btn').style.display = 'none'
-                _elem('.block_auth_and_reg').style = ' background-color:#43B597; '
-            })
+            _elem('.block_auth_and_reg').style = 'background-color: rgb(60, 148, 207); '
+        })
+        _event('.tumb_auth', function(){
+            tumb = 0;
+            _elem('.form_reg').style.display = 'none'
+            _elem('.form_reg').style.display = 'none'
+            _elem('.form_auth').style.display = 'flex'
+            _elem('.block_auth_btn').style.display = 'flex'
+            _elem('.block_reg_btn').style.display = 'none'
+            _elem('.block_auth_and_reg').style = ' background-color:#43B597; '
+        })
 
-            _event('.btn_auth', function(){
+        document.addEventListener('keydown', function(e){
+            if (tumb == 0 && (e.code == 'Enter')){
                 doAuth()
-            })
-            _event('.btn_reg', function(){
+            }else if (tumb==1 && e.code == 'Enter'){
                 doReg()
+            }
+        },{once:true})
+        _event('.btn_auth', function(){
+            doAuth()
+        })
+        _event('.btn_reg', function(){
+            doReg()
         })
     }
     ///////////////////////КНОПКИ АВТОРИЗАЦИИ И РЕГИСТРАЦИИ
@@ -52,7 +66,7 @@ function doAuth(){
                 MyEmail=JSON.parse(xhr.responseText)["Data"]["email"]
                 localStorage.setItem('myEmail', MyEmail)
                 oldPass = JSON.parse(xhr.responseText)["Data"]["pass"]
-                alert(oldPass)
+               // alert(oldPass)
                 localStorage.setItem('oldPass',oldPass )
                // alert(1)
                 _load(`views/main_page.html`, doMainPage)
