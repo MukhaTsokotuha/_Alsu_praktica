@@ -31,6 +31,7 @@
 //     }
 // }
 
+
 // createParticles();
 
 // // Анимация
@@ -59,24 +60,24 @@
 // // Начало анимации
 // requestAnimationFrame(animate);
 
-element = document.querySelector('.block')
-duration = 3000
-let zero;
+// element = document.querySelector('.block')
+// duration = 3000
+// let zero;
 
-requestAnimationFrame(firstFrame);
-function firstFrame(timestamp) {
-      console.log(timestamp, zero)
-  zero = timestamp;
-  animate(timestamp);
-}
-function animate(timestamp) {
-  const value = (timestamp - zero) / duration;
-  console.log(timestamp)
-  if (value < 1) {
-    element.style.opacity = value;
-    requestAnimationFrame((t) => animate(t));
-  } else element.style.opacity = 1;
-}
+// requestAnimationFrame(firstFrame);
+// function firstFrame(timestamp) {
+//       console.log(timestamp, zero)
+//   zero = timestamp;
+//   animate(timestamp);
+// }
+// function animate(timestamp) {
+//   const value = (timestamp - zero) / duration;
+//   console.log(timestamp)
+//   if (value < 1) {
+//     element.style.opacity = value;
+//     requestAnimationFrame((t) => animate(t));
+//   } else element.style.opacity = 1;
+// }
 
 
 // const zero = performance.now();
@@ -88,3 +89,4 @@ function animate(timestamp) {
 //     requestAnimationFrame((t) => animate(t));
 //   } else element.style.opacity = 1;
 // }
+

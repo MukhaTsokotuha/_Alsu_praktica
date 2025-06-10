@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        body{
+            background-color: aqua;
+        }
+    </style>
+    <head></head>
+    <body>
+        <canvas id="canvas"></canvas>
+
+    </body>
+    <script>
+        var context; // переменная для хранения контекста
+        var container; // переменная для хранения canvas элемента
+        var currentAngle = 0; // текущее значение угла
+        var radius = 100; // радиус окружности
+        var baseX = 200; // x координата центра окружности
+        var baseY = 200; // y координата центра окружности
+
+        window.onload = function() {
+        container = document.createElement("canvas"); // создаем canvas элемент 
+        container.width = 400; // устанваливаем ширину
+        container.height = 400; // устанавливаем высоту
+
+        document.body.appendChild(container); // добавляем canvas в DOM
+            context = container.getContext('2d'); // получаем конткест
+            context.fillStyle = '#000'; // устанавливаем цвет заливки в черный
+            context.fillRect(0, 0, container.width, container.height); // собственно заливаем все черным
+            setInterval(function() {
+                // считаем косинус текущего значения угла
+                // и умножаем на значение радиуса
+                var vx = Math.cos(currentAngle) * radius;
+
+                // считаем синус текущего значения угла
+                // и умножаем на значение радиуса
+                var vy = Math.sin(currentAngle) * radius;
+
+                context.fillStyle = '#fff'; // устанавливаем цвет заливки в белый
+
+                context.fillRect(baseX + vx, baseY + vy, 15, 15);
+                context.clearRect(baseX+vx, baseY+vy, 15,15)
+                // считем новую позицию по x и y относительно центра окружности
+                // и заливаем ее квадратиком высотой и шириной в 5 пикселей
+
+                // увеличиваем значение угла
+                currentAngle += 0.1;
+            }, 5)
+        }
+    </script>
+    <!--
+    <script>
+        class Sprite {
+            constructor(options) {
+                this.ctx = options.ctx;
+
+                this.image = options.image;
+
+                this.frameIndex = 0;
+                this.tickCount = 0;
+                this.ticksPerFrame = options.ticksPerFrame || 0;
+                this.numberOfFrames = options.numberOfFrames || 1;
+
+                this.width = options.width;
+                this.height = options.height;
+
+                this.start();
+            }
+            // frameIndex – индекс активного фрейма;
+            // tickCount – количество обновлений, произошедших после первого вывода текущего фрейма;
+            // ticksPerFrame – количество обновлений, которые должны произойти до смены фреймов.
+            // numberOfFrames – количество фреймов в спрайте
+            update() {
+                this.tickCount++;
+                 //если кол-во произошедших обновлений больше, чем 
+                // количество обновлений, которые должны произойти, то начинаем заново
+                if (this.tickCount > this.ticksPerFrame) {
+                    this.tickCount = 0;
+                    if (this.frameIndex < this.numberOfFrames - 1) {
+                        this.frameIndex++;
+                    } else {
+                        this.frameIndex = 0;
+                    }
+                }
+            }
+
+            render() {//очищает холст и обрезает спрайт
+                this.ctx.clearRect(0, 0, this.width / this.numberOfFrames, this.height);
+                this.ctx.drawImage(
+                    this.image,
+                    this.frameIndex * this.width / this.numberOfFrames,
+                    0,
+                    this.width / this.numberOfFrames,
+                    this.height,
+                    0,
+                    0,
+                    this.width / this.numberOfFrames,
+                    this.height
+                )
+            }
+
+            start() {
+                let loop = () => {
+                    this.update();
+                    this.render();
+
+                    window.requestAnimationFrame(loop);
+                }
+
+                window.requestAnimationFrame(loop);
+            }
+        }
+
+        let canvas = document.getElementById('canvas');
+        canvas.width = 100;
+        canvas.height = 100;
+
+        let coinImage = new Image();
+        coinImage.src = 'https://www.cat-in-web.ru/wp-content/uploads/coin-sprite-animation.png';
+
+        let sprite = new Sprite({
+            ctx: canvas.getContext('2d'),
+            image: coinImage,
+            width: 1000,
+            height: 100,
+            numberOfFrames: 10,
+            ticksPerFrame: 4,
+        })
+    </script>
+    -->
+</html>
