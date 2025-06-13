@@ -1,5 +1,6 @@
 k = 1
-let timer = setInterval(() => {
+function f(){
+    let timer = setInterval(() => {
     let array = document.querySelectorAll('.block_imgs img')
     i = 0;
     flag = 0
@@ -125,3 +126,4 @@ let timer = setInterval(() => {
     //     clearInterval(timer)
     // }
 }, 700);
+}

@@ -5,7 +5,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow: hidden;
 }
 .carousel-3d > * {/*прямые потомки блока, figure и nav*/
     flex: 0 0 auto;/*flex-элемент не расстягивается и не сжимается*/
@@ -15,9 +14,9 @@
     width: 50%;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
-    transition: -webkit-transform 7s;
-    transition: transform 7s;
-    transition: transform 7s, -webkit-transform 7s;
+    transition: -webkit-transform 9s;
+    transition: transform 9s;
+    transition: transform 9s, -webkit-transform 9s;
 }
 
 .carousel-3d figure div {
@@ -41,23 +40,7 @@
     left: 0;
     top: 0;
 }
-.carousel-3d nav {
+.carousel-3d figure div{
     display: flex;
     justify-content: center;
-    margin: 20px 0 0;
-}
-.carousel-3d nav button {
-    flex: 0 0 auto;
-    margin: 0 5px;
-    cursor: pointer;
-    color: #337AB7;
-    background: #BFE2FF;
-    border: 1px solid #337AB7;
-    padding: 5px 10px;
-    font-weight: bold;
-    transition: all .3s ease;
-}
-.carousel-3d nav button:hover {
-    color: #FFF;
-    background: #337AB7;
 }
