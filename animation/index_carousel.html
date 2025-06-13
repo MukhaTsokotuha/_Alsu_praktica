@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style/carousel_style.css">
+    </head>
+    <body>
+        <div class="carousel-3d">
+            <figure>
+                <div><a href="#any"><img src="images/1.jpg" alt=""/></a></div>
+                <div><a href="#any"><img src="images/2.jpg" alt=""/></a></div>
+                <div><a href="#any"><img src="images/3.jpg" alt=""/></a></div>
+                <div><a href="#any"><img src="images/4.jpg" alt=""/></a></div>
+                <div><a href="#any"><img src="images/5.jpg" alt=""/></a></div>
+                <div><a href="#any"><img src="images/6.jpg" alt=""/></a></div>
+            </figure>
+           
+        </div>
+    </body>
+    <script>
+        window.addEventListener("load", () => {
+            var carousels = document.querySelectorAll(".carousel-3d");//массив с элементом 
+            console.log(carousels, carousels.length, carousels[0])
+            for (var i = 0; i < carousels.length; i++) {
+                carousel(carousels[i]);
+            }
+        });
+        function carousel(root) {
+            var figure = root.querySelector("figure"),
+            nav = root.querySelector("nav"),
+            images = figure.children,//коллекция дочерних элементов
+            n = images.length, //количество картинок - 6
+            gap = root.dataset.gap || 0, //dataset позволяет хранить данные об элементе в html коде
+            bfc = "bfc" in root.dataset, //флаг видимости обратной стороны 
+            theta = 2 * Math.PI / n,
+            currImage = 0;
+        
+            setupCarousel(n, parseFloat(getComputedStyle(images[0]).width));
+            console.log(getComputedStyle(images[0]).width)
+            window.addEventListener("resize", () => {
+                setupCarousel(n, parseFloat(getComputedStyle(images[0]).width));
+            });
+            function setupCarousel(n, s) {
+                var apothem = s / (2 * Math.tan(Math.PI / n));
+                figure.style.transformOrigin = `50% 50% ${-apothem}px`;
+                for (var i = 0; i < n; i++) images[i].style.padding = `0 ${gap}px`;
+                for (i = 0; i < n; i++) {
+                    images[i].style.transformOrigin = `50% 50% ${-apothem}px`;
+                    images[i].style.transform = `rotateY(${i * theta}rad)`;
+                }
+                if (bfc)
+                for (i = 0; i < n; i++) images[i].style.backfaceVisibility = "hidden";
+                rotateCarousel(currImage);
+            }
+      
+            function rotateCarousel(imageIndex) {
+                figure.style.transform = `rotateY(${imageIndex * -theta}rad)`;
+            }
+            //автоматическое вращение карусели
+            let cur;
+            function showcur() {
+                cur = setInterval(function() {
+                    currImage++;
+                    rotateCarousel(currImage);
+                }, 1000);
+            }
+            //requestAnimationFrame(showcur)
+            showcur();  
+            
+        }
+    </script>
+</html>
