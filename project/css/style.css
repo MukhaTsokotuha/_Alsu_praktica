@@ -362,7 +362,8 @@ header{
 }
 .logo{
     height: 70px;
-    filter: saturate(70%)
+    filter: saturate(70%);
+    margin-left: 5%;
 }
 .section{
     padding: 40px;
@@ -443,12 +444,12 @@ header{
 
 /*///////////////////////БЛОК ЧАТОВ*/
 .block_chats {
-    height: 480px;
+    height: 95%;
     display: grid;
     grid-template-rows: 8fr;
+      margin: auto 0;
 }
 .list_chats{
-    
     overflow-y: auto;
     color: #fff;
     background-color: rgb(64, 144, 197);
@@ -499,13 +500,12 @@ header{
 
 /*////////////////////////////////////////СООБЩЕНИЯ*/
 .block_messages{
-    height: 100%;
-
+    height: 95%;
     margin: auto 0;
 }
 .margin_block_messages{
     background-color: rgb(64, 144, 197);
-    height: 480px;
+    height: 100%;
     display: grid;
     grid-template-rows: 17fr 1fr;
 
