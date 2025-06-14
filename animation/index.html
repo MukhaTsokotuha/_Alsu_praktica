@@ -13,9 +13,7 @@
                 <div><a href="#any"><img src="images/5.jpg" alt=""/></a></div>
                 <div><a href="#any"><img src="images/6.jpg" alt=""/></a></div>
             </figure>
-           
         </div>
-
     </body>
     <script>
         function carousel(){
@@ -32,22 +30,16 @@
             }
             
             function rotateCarousel(index){
-               // figure.style.transform = `rotateY(${currImage * -theta}rad)`;
-               // for (let index = 0; index < n; index++) {
-                     figure.style.transform = `rotateY(${index * -theta}rad) rotateZ(${index * -0.1}rad)`;
-                     console.log( figure.getAttribute("style"))
-                     console.log(index)
-                    
-                //}
-               //  figure.style.transform = `rotateY(${currImage * -theta}rad) rotateZ(${currImage * -0.01}rad)`;
+                figure.style.transform = `rotateY(${index * -theta}rad) rotateZ(${index * -0.1}rad)`;
+                console.log( figure.getAttribute("style"))
+                console.log(index)
             }
             let index=0;
             let timer = setInterval(function(){
                 index++
                 rotateCarousel(index)
-            },3000)
+            }, 5000)
         }
-    
         carousel()
     </script>
  
