@@ -1,0 +1,52 @@
+section{
+    width: 100%;
+    height: 100vh;
+    background-color: aliceblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.block_time{
+    display: flex;
+    gap: 15px;
+}
+.block_time p{
+    background: linear-gradient( rgba(0, 238, 255, 0.664), #53ea92ea);
+    display: flex;
+    justify-content: center;
+    width: 15px;
+    padding: 12px;
+    color: rgb(41, 40, 40);
+    font-size: 25px;
+   
+    transition: transform .3s linear;
+}
+.block_time > div{
+    display: flex;
+    gap: 10px;
+}
+.block_timer{
+    text-align: center;
+}
+.timer{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+.timer > div{
+    display: flex;
+    gap: 5px;
+}
+.timer p{
+    background-color: rgba(18, 255, 176, 0.61);
+    display: flex;
+    justify-content: center;
+    width: 10px;
+    padding: 10px;
+}
+.timer input{
+    width: 30px;
+    height: 30px;
+}

@@ -4,7 +4,7 @@
         <p class="user_name">Name</p>
         <img src="" alt="">
         
-        <div class="block_changePassword hidden">
+        <div class="block_changePassword hidden"><!-- ИЗМЕНИТЬ ПАРОЛЬ -->
             <div class="text_changePassword">
                 <h1>Изменение пароля</h1>
                 <form action="">
@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="userProfile">
-            <div class="block_changeProfile hidden">
+            <div class="block_changeProfile hidden"><!-- ИЗМЕНИТЬ ДАННЫЕ ПОЛЬЗОВАТЕЛЯ -->
                 <div class="text_changeProfile">
                     <h1>Новые данные</h1>
                     <label for="">
@@ -54,22 +54,16 @@
                         <input type="email" value="email" id="email_changeProfile">
                     </label>
                     <br>
-                 
-                    <button class="btn_toChangePass">Изменить пароль</button>
-                   
-                  
-                   
-                </div>
-                
-
+                    <button class="btn_toChangePass">Изменить пароль</button> 
+                </div><!--text_changeProfile-->
                 <div class="btn_block">
                     <button class="btn btn_change_data">Изменить</button>
                     <button class="btn_delete">Удалить профиль</button>
                 </div>
                 <div class="message_block_profile"></div>
-            </div><!--Block change profile-->
+            </div><!--block_changeProfile-->
 
-            <div class="info_userProfile hidden">
+            <div class="info_userProfile hidden"> <!-- ПОКАЗАТЬ ДАННЫЕ О ПОЛЬЗОВАТЕЛЕ -->
                 <div class="text_userProfile">
                     <p>Имя: <span class="name_userProfile"></span></p>
                     <p>Фамилия: <span class="fam_userProfile"></span></p>
@@ -80,11 +74,9 @@
                     <button class="btn_toChangeProfile">Изменить профиль</button>
                     <button class="btn_logout">Выйти</button>
                 </div>
-            </div>
+            </div><!--info_userProfile-->
         </div><!--userProfile-->
-    </div><!---->
-    
-  
+    </div><!--block_profile-->
 </header>
 
 <div class="block_companion_profile">
@@ -97,52 +89,38 @@
         <button class="back_profile">Назад</button>
     </div>
 </div>
-    <section class="section ">
-        <div class="block_chats ">
-           
-         
-            <div class="list_chats">
-                 
-                    
-            </div>
 
-            <div class="block_createChat">
-                <div class="margin_block_createChat">
-                    
-                        <p>Создать чат с :</p>
-                        <div class="form_createChat">
-                            <input type="text">
-                            <button class="btn btn_create_chat">Создать</button>
-                        </div>
-                </div>
-                <div class="answer_text"></div> 
-            </div>
-
-            <div>
-                
-                <div class="change_chatName hidden">
-                    <p>Изменить имя чата</p>
-                    <div class="block_change_chatName">
-                        <input type="text">
-                        <button >Изменить</button>
-                    </div>
-                    
-                </div>
-                
-            </div>
-           
-        </div>
-        <div class="block_messages">
-            <div class="margin_block_messages">
-                
-                <div class="content_messages">
-                  
-                </div>
-                <div class="send_message">
+<section class="section">
+    <div class="block_chats"><!-- СПИСОК ЧАТОВ -->
+        <div class="list_chats"> </div>
+        <div class="block_createChat">
+            <div class="margin_block_createChat">
+                <p>Создать чат с :</p>
+                <div class="form_createChat">
                     <input type="text">
-                    <button>➤</button>
+                    <button class="btn btn_create_chat">Создать</button>
                 </div>
             </div>
-            
+            <div class="answer_text"></div> 
         </div>
-    </section>
+        <div>
+            <div class="change_chatName hidden">
+                <p>Изменить имя чата</p>
+                <div class="block_change_chatName">
+                    <input type="text">
+                    <button >Изменить</button>
+                </div>
+                
+            </div>
+        </div>
+    </div><!--block_chats-->
+    <div class="block_messages"> <!-- СООБЩЕНИЯ -->
+        <div class="margin_block_messages">
+            <div class="content_messages"></div>
+            <div class="send_message">
+                <input type="text">
+                <button>➤</button>
+            </div>
+        </div>
+    </div>
+</section><!--section-->
